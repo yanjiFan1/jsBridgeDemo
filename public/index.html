@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,viewport-fit=cover">
+    <link rel="icon" href="" type="image/x-icon" />
+    <script type="text/javascript">
+        /**
+         * @param {Function} callback 回调函数
+         *
+         */
+        function setupWebViewJavascriptBridge(callback) {
+            if (window.WebViewJavascriptBridge) {
+                return callback(WebViewJavascriptBridge)
+            }
+            if (window.WVJBCallbacks) {
+                return window.WVJBCallbacks.push(callback)
+            }
+            window.WVJBCallbacks = [callback]
+            var WVJBIframe = document.createElement('iframe')
+            WVJBIframe.style.display = 'none'
+            WVJBIframe.src = 'xxxx://__bridge_loaded__' // 和安卓和ios定义的协议
+            document.documentElement.appendChild(WVJBIframe)
+            setTimeout(function() {
+                document.documentElement.removeChild(WVJBIframe)
+            }, 0)
+        }
+
+        setupWebViewJavascriptBridge(function() {})
+    </script>
+</head>
+
+<body>
+    <div id="app"></div>
+</body>
+
+</html>
